@@ -31,7 +31,7 @@ if [ -d $CONDA_DIR ]; then
 fi
 export PATH=$CONDA_DIR/bin:$PATH
 
-sudo apt-get install libusb-dev
+sudo apt-get install git libusb-dev mercurial
 
 wget -c https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 chmod a+x Miniconda3-latest-Linux-x86_64.sh
@@ -47,8 +47,10 @@ conda config --add channels timvideos
 
 conda install openocd
 pip install pyusb
-pip install code128
 pip install crcmod
+pip install pillow
+
+pip install hg+https://bitbucket.org/whitie/python-barcode
 
 python opsis_eeprom.py
 
