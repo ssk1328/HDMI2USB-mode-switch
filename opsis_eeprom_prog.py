@@ -69,3 +69,4 @@ if old_eeprom_data != new_eeprom_data:
     set_eeprom(dev, 0, new_eeprom_data)
 
 s.check()
+s.mac_barcode().save('barcode_mac', {'module_height': 7, 'font_size': 12, 'text_distance': 5, 'human': 'MAC - %s' % e.mac()})
