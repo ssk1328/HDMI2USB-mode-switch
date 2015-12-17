@@ -49,16 +49,9 @@ current_eeprom_data = get_eeprom(dev, 0, opsis_eeprom.OpsisEEPROM.size())
 old_eeprom_data = bytes(current_eeprom_data)
 
 s = opsis_eeprom.OpsisEEPROM.from_buffer(current_eeprom_data)
-opsis_eeprom.print_struct(s)
-
-s.pcb_batch = 1
-s.pcb_commit_set('4630ae86f98c148c6411980c7bd88a3ff5cb4573')
-
-s.prod_batch = 1
-s.prod_program = int(time.time())
-
+print(repr(s))
 s.populate()
-opsis_eeprom.print_struct(s)
+print(repr(s))
 
 new_eeprom_data = bytes(current_eeprom_data)
 
@@ -69,4 +62,4 @@ if old_eeprom_data != new_eeprom_data:
     set_eeprom(dev, 0, new_eeprom_data)
 
 s.check()
-s.mac_barcode().save('barcode_mac', {'module_height': 7, 'font_size': 12, 'text_distance': 5, 'human': 'MAC - %s' % e.mac()})
+s.mac_barcode().save('barcode_mac', {'module_height': 7, 'font_size': 12, 'text_distance': 5, 'human': 'MAC - %s' % s.mac()})
