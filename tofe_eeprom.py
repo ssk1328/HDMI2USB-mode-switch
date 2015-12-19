@@ -53,11 +53,12 @@ class Voltage(ctypes.LittleEndianStructure):
     1V0
     >>> print(Voltage.create(0.9))
     0V9
+    >>> Voltage.create(0.9).repack()
     """
     _pack_ = 1
     _fields_ = [
-         ("ones", ctypes.c_uint8, 4),
-         ("tenths", ctypes.c_uint8, 4),
+         ("ones", ctypes.c_uint8, 6),
+         ("tenths", ctypes.c_uint8, 2),
     ]
 
     @staticmethod
@@ -69,18 +70,17 @@ class Voltage(ctypes.LittleEndianStructure):
     def __str__(self):
         return "%iV%i" % (self.ones, self.tenths)
 
+    def repack(self):
+        a = ctypes.cast(self, ctypes.c_char)
+        print(repr(a))
 
-class Voltage(ctypes.LittleEndianStructure):
-    _pack_ = 1
-    _fields_ = [
-         ("ones", ctypes.c_uint8, 6),
-         ("tenths", ctypes.c_uint8, 2),
-    ]
+
+class Speed(ctypes.LittleEndianStructure):
     """
     >>> print(Speed.create(1500))
     1G5
     >>> print(Speed.create(3125))
-    3G2
+    3G25
     >>> print(Speed.create(5000))
     5G0
     >>> print(Speed.create(6000))
@@ -96,25 +96,66 @@ class Voltage(ctypes.LittleEndianStructure):
     >>> print(Speed.create(56000))
     56G0
     """
+    _pack_ = 1
+    _fields_ = [
+         ("ones", ctypes.c_uint8, 6),
+         ("quarts", ctypes.c_uint8, 2),
+    ]
 
     @staticmethod
     def create(value):
         value = value / 1000
         ones = int(math.floor(value))
         tenths = int(round((value - ones) * 10))
-        return Voltage(ones, tenths)
+        return Speed(ones, tenths)
 
     def __str__(self):
         return "%iG%i" % (self.ones, self.tenths)
 
 
-'''
+
+from enum import IntEnum
+
+"""
+class LineEncoding(IntEnum):
+    8b/10b
+    64b/66b
+    64b/67b
+    128b/130b
+    128b/132b
+
+class SignalStandard(IntEnum):
+
+LVCMOS - 
+LVDS   - Low Voltage Differential Signaling
+RSDS   - Reduced Swing Differential Signaling
+PPDS   - Point-to-Point Differential Signaling
+TMDS   - Transition Minimized Differential Signaling
+BLVDS  - Bus LVDS
+"""
+
+
+class Power(IntEnum):
+    VCC_3V3 = 0x01
+    VCC_12V = 0x10
+
+class Direction(IntEnum):
+    tx = 0x01
+    rx = 0x10
+    bidir = 0x11
+
 
 class TOFE_Connector_Pin(ctypes.LittleEndianStructure):
     _pack_ = 1
     _fields_ = [
-    
+        ("voltage", Voltage),
+        ("speed", Speed),
+        ("direction", ctypes.c_uint8, 2),
+        ("encoding", ctypes.c_uint8, 3),
+        ("standard", ctypes.c_uint8, 3),
+    ]
 
+'''
 
 class TOFE_EEPROM(ctypes.LittleEndianStructure):
     """Structure representing the TOFE EEPROM format.
