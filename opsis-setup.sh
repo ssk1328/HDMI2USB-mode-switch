@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo apt-get install realpath
+
 CALLED=$_
 [[ "${BASH_SOURCE[0]}" != "${0}" ]] && SOURCED=1 || SOURCED=0
 
