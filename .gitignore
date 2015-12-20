@@ -63,3 +63,6 @@ Miniconda3-latest-Linux-x86_64.sh
 # Generated files
 opsis_eeprom_crc.c
 barcode*
+
+# Helper util.
+bin/unbind-helper

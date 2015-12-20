@@ -59,9 +59,17 @@ pip install hg+https://bitbucket.org/whitie/python-barcode
 
 conda install -c https://conda.anaconda.org/m-labs flterm
 
+sudo apt-get install build-essential gcc
+UBH=$TOP_DIR/bin/unbind-helper
+gcc -std=c11 unbind-helper.c -o $UBH
+sudo chmod 755 $UBH
+sudo chown root:root $UBH
+sudo chmod u+s $UBH
+ls -l $UBH
+
 python opsis_eeprom.py
 
 echo "Run"
 echo "----"
-echo "export PATH=$CONDA_DIR/bin:\$PATH"
+echo "export PATH=$CONDA_DIR/bin:$TOP_DIR/bin:\$PATH"
 echo "----"
