@@ -69,6 +69,8 @@ ls -l $UBH
 
 python opsis_eeprom.py
 
+sudo apt-get install inkscape
+
 echo "Run"
 echo "----"
 echo "export PATH=$CONDA_DIR/bin:$TOP_DIR/bin:\$PATH"
