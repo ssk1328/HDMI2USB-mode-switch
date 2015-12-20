@@ -32,6 +32,9 @@ fi
 export PATH=$CONDA_DIR/bin:$PATH
 
 sudo apt-get install git libusb-dev mercurial
+sudo cp 52-opsis.rules /etc/udev/rules.d/
+sudo chmod 644 /etc/udev/rules.d/
+sudo udevadm control --reload-rules
 
 wget -c https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 chmod a+x Miniconda3-latest-Linux-x86_64.sh
