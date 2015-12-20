@@ -50,23 +50,40 @@ import opsis_eeprom
 dev = get_dev()
 current_eeprom_data = get_eeprom(dev, 0, opsis_eeprom.OpsisEEPROM.size())
 old_eeprom_data = bytes(current_eeprom_data)
-print(repr(old_eeprom_data))
 
 s = opsis_eeprom.OpsisEEPROM.from_buffer(current_eeprom_data)
 
 if len(sys.argv) > 1:
     s.populate()
+    print("Data to be programmed...")
+    print("-"*40)
     print(repr(s))
+    print("-"*40)
+    print()
 
     new_eeprom_data = bytes(current_eeprom_data)
 
-    print(repr(old_eeprom_data))
-    print(repr(new_eeprom_data))
+    print("Current contents:", repr(old_eeprom_data))
+    print("    New contents:", repr(new_eeprom_data))
 
+    print()
+    print()
+    print("Programming...", end="")
+    sys.stdout.flush()
     if old_eeprom_data != new_eeprom_data:
         set_eeprom(dev, 0, new_eeprom_data)
+    print("Done!")
+    print()
+    print("Run the tool again without --go to verify programming.")
 else:
+    print("Current contents:", repr(old_eeprom_data))
+    print()
+    print()
+    print("Data found in EEPROM...")
+    print("-"*40)
     print(repr(s))
+    print("-"*40)
+    print()
     s.check()
-
-s.mac_barcode().save('barcode_mac', {'module_height': 7, 'font_size': 12, 'text_distance': 5, 'human': 'MAC - %s' % s.mac()})
+    print("Data verified successfully!")
+    s.mac_barcode().save('barcode_mac', {'module_height': 7, 'font_size': 12, 'text_distance': 5, 'human': 'MAC - %s' % s.mac()})

@@ -67,11 +67,18 @@ sudo chown root:root $UBH
 sudo chmod u+s $UBH
 ls -l $UBH
 
-python opsis_eeprom.py
-
 sudo apt-get install inkscape
 
-echo "Run"
+python opsis_eeprom.py
+
+echo
+echo
+echo
+echo
+echo "Setting up Opsis programming tools successful!!!"
+echo "\\o/ \\o/"
+echo
+echo "Before running any more commands, do the following;"
 echo "----"
 echo "export PATH=$CONDA_DIR/bin:$TOP_DIR/bin:\$PATH"
 echo "----"
