@@ -57,6 +57,8 @@ pip install pillow
 
 pip install hg+https://bitbucket.org/whitie/python-barcode
 
+conda install -c https://conda.anaconda.org/m-labs flterm
+
 python opsis_eeprom.py
 
 echo "Run"
