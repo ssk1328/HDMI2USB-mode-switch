@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# vim: set ts=4 sw=4 et sts=4 ai:
 
 import array
 import usb.core
@@ -40,6 +42,7 @@ def get_dev():
     return dev
 
 
+import sys
 import argparse
 import time
 import opsis_eeprom
@@ -47,19 +50,23 @@ import opsis_eeprom
 dev = get_dev()
 current_eeprom_data = get_eeprom(dev, 0, opsis_eeprom.OpsisEEPROM.size())
 old_eeprom_data = bytes(current_eeprom_data)
+print(repr(old_eeprom_data))
 
 s = opsis_eeprom.OpsisEEPROM.from_buffer(current_eeprom_data)
-print(repr(s))
-s.populate()
-print(repr(s))
 
-new_eeprom_data = bytes(current_eeprom_data)
+if len(sys.argv) > 1:
+    s.populate()
+    print(repr(s))
 
-print(repr(old_eeprom_data))
-print(repr(new_eeprom_data))
+    new_eeprom_data = bytes(current_eeprom_data)
 
-if old_eeprom_data != new_eeprom_data:
-    set_eeprom(dev, 0, new_eeprom_data)
+    print(repr(old_eeprom_data))
+    print(repr(new_eeprom_data))
 
-s.check()
+    if old_eeprom_data != new_eeprom_data:
+        set_eeprom(dev, 0, new_eeprom_data)
+else:
+    print(repr(s))
+    s.check()
+
 s.mac_barcode().save('barcode_mac', {'module_height': 7, 'font_size': 12, 'text_distance': 5, 'human': 'MAC - %s' % s.mac()})
