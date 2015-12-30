@@ -57,14 +57,6 @@ class FX2Config(ctypes.LittleEndianStructure):
         segs = self.segments()
         s = []
         s.append("""\
-// Constant versions of the htobe functions for use in the structures
-#if __BYTE_ORDER == __LITTLE_ENDIAN
-# define htobe16c(x) __bswap_constant_16(x)
-# define htole16c(x) (x)
-#else
-# define htobe16c(x) (x)
-# define htole16c(x) _bswap_constant_16(x)
-#endif
 
 union {
     struct {
@@ -117,6 +109,14 @@ union {
 """)
         return "".join(s)
 
+    @property
+    def totalsize(self):
+        l = ctypes.sizeof(self.__class__)
+        for seg in self.segments():
+            l += ctypes.sizeof(seg.__class__)
+            l += seg._len
+        return l
+
 
 class FX2DataSegment(ctypes.BigEndianStructure):
     _pack_ = 1
@@ -155,6 +155,18 @@ class FX2DataSegment(ctypes.BigEndianStructure):
     def __repr__(self):
         return "FX2DataSegment(0x%04x, {...}[%i])" % (self.addr, self._len)
 
+    def make_last(self):
+        self._last = 1
+        self.addr = 0xE600
+        self._len = 1
+        self.data[:] = [0x00]
+
+    def clear(self):
+        self._last = 0
+        self.addr = 0
+        self._len = 0
+        assert len(self.data) == 0, len(self.data)
+
 
 def from_hexfile(filename):
     import hexfile
@@ -172,7 +184,6 @@ def from_hexfile(filename):
     # FX2 header
     fx2cfg = FX2Config.from_buffer(backbuffer)
     fx2cfg.buffer = backbuffer
-    fx2cfg.totalsize = totalsize
     fx2cfg.populate()
 
     # FX2 data segments
@@ -186,10 +197,9 @@ def from_hexfile(filename):
         assert fx2seg
 
     # Terminal segment
-    fx2seg._last = 1
-    fx2seg.addr = 0xE600
-    fx2seg._len = 1
-    fx2seg.data[:] = [0]
+    fx2seg.make_last()
+
+    assert_eq(totalsize, fx2cfg.totalsize)
 
     return fx2cfg
 
@@ -215,7 +225,19 @@ if __name__ == "__main__":
     sys.stdout.write("""\
 #include <endian.h>
 #include <asm/types.h>
-#include <linux/types.h>
+
+// Constant versions of the htobe functions for use in the structures
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+# define htobe16c(x) __bswap_constant_16(x)
+# define htole16c(x) (x)
+#else
+# define htobe16c(x) (x)
+# define htole16c(x) _bswap_constant_16(x)
+#endif
+
+typedef __u16 __le16;
+typedef __u16 __be16;
+
 """)
     sys.stdout.write(fx2cfg.c_struct())
     sys.stdout.write("""\
