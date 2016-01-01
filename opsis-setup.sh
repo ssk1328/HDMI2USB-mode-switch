@@ -46,6 +46,7 @@ conda update -q conda
 conda config --add channels timvideos
 
 conda install openocd
+sudo apt-get install libftdi-dev
 
 sudo apt-get install libusb-dev
 pip install pyusb
