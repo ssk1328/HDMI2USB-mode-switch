@@ -70,6 +70,8 @@ ls -l $UBH
 
 sudo apt-get install inkscape
 
+sudo apt-get install fxload
+
 python opsis_eeprom.py
 
 echo
