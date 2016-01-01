@@ -136,7 +136,6 @@ class OpsisEEPROM(ctypes.LittleEndianStructure):
     def eui48(self):
         assert self.wp_mac[0] == -1
         assert self.wp_mac[1] == -1
-        assert self.wp_mac[2] == 0
         return list((x & 0xff,) for x in self.wp_mac[2:])
 
     def mac(self):
