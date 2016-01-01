@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 sudo apt-get install realpath
 
 CALLED=$_
@@ -8,8 +10,6 @@ CALLED=$_
 SETUP_SRC=$(realpath ${BASH_SOURCE[0]})
 SETUP_DIR=$(dirname $SETUP_SRC)
 TOP_DIR=$(realpath $SETUP_DIR)
-
-set -e
 
 if [ $SOURCED = 1 ]; then
         echo "You must run this script, rather then try to source it."
@@ -21,11 +21,6 @@ echo "             This script is: $SETUP_SRC"
 echo "        Top level directory: $TOP_DIR"
 
 unset PYTHONPATH
-
-# Check the build dir
-if [ ! -d $BUILD_DIR ]; then
-        mkdir -p $BUILD_DIR
-fi
 
 CONDA_DIR=$TOP_DIR/conda
 if [ -d $CONDA_DIR ]; then
