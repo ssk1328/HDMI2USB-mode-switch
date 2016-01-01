@@ -28,7 +28,7 @@ if [ -d $CONDA_DIR ]; then
 fi
 export PATH=$CONDA_DIR/bin:$PATH
 
-sudo apt-get install git libusb-dev mercurial
+sudo apt-get install git mercurial
 sudo cp 52-opsis.rules /etc/udev/rules.d/
 sudo chmod 644 /etc/udev/rules.d/
 sudo udevadm control --reload-rules
@@ -46,8 +46,13 @@ conda update -q conda
 conda config --add channels timvideos
 
 conda install openocd
+
+sudo apt-get install libusb-dev
 pip install pyusb
+
 pip install crcmod
+
+sudo apt-get install libjpeg-dev
 pip install pillow
 
 pip install hg+https://bitbucket.org/whitie/python-barcode
