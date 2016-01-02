@@ -15,10 +15,12 @@ def finish():
 def call(a):
     subprocess.check_output(a, shell=True, stderr=subprocess.STDOUT)
 
-if os.path.exists("barcode_mac.svg"):
-    os.unlink("barcode_mac.svg")
-if os.path.exists("barcode_dna.svg"):
-    os.unlink("barcode_dna.svg")
+
+def cleanup():
+    for f in ["barcode_mac_small.png", "barcode_mac_large.png", "barcode_dna_small.png", "barcode_dna_large.png"]:
+        if os.path.exists(f):
+            os.unlink(f)
+cleanup()
 
 start("Getting MAC address")
 exp = None
@@ -39,33 +41,9 @@ call("python hdmi2usb-mode-switch.py --mode jtag")
 call("python openocd_readdna.py numato_opsis")
 finish()
 
-def get_barcode(a):
-    lines = []
-    for line in a.splitlines():
-        if not line.startswith("        "):
-            continue
-        lines.append(line)
-
-    return lines[1:]
-
-mac = get_barcode(open("barcode_mac.svg").read())
-dna = get_barcode(open("barcode_dna.svg").read())
-
-template = open("label.svg").read()
-
-template = template.replace("<!-- mac address -->", "\n        ".join(mac))
-template = template.replace("<!-- dna address -->", "\n        ".join(dna))
-
-f = open("label-out.svg", "w")
-f.write(template)
-f.close()
-
 outfile = "label-%s.png" % time.time()
 
-call("inkscape -C -f label-out.svg -w 1200 -h 1800 -e %s --export-background=white" % outfile)
-
-os.unlink("label-out.svg")
-os.unlink("barcode_mac.svg")
-os.unlink("barcode_dna.svg")
+call("inkscape -C -f label.svg -w 1200 -h 1800 -e %s --export-background=white" % outfile)
 
 print("Image generated in %s" % outfile)
+cleanup()
