@@ -53,8 +53,9 @@ pip install pyusb
 
 pip install crcmod
 
-sudo apt-get install libjpeg-dev
-pip install pillow
+#sudo apt-get install libjpeg-dev
+#pip install pillow
+conda install pillow
 
 pip install --upgrade hg+https://bitbucket.org/mithro/python-barcode
 pip install --upgrade git+https://github.com/mithro/hexfile.git
