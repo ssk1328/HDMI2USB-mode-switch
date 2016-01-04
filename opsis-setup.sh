@@ -57,8 +57,8 @@ pip install crcmod
 #pip install pillow
 conda install pillow
 
-pip install hg+https://bitbucket.org/whitie/python-barcode
-pip install git+https://github.com/mithro/hexfile.git
+pip install --upgrade hg+https://bitbucket.org/mithro/python-barcode
+pip install --upgrade git+https://github.com/mithro/hexfile.git
 
 conda install -c https://conda.anaconda.org/m-labs flterm
 
