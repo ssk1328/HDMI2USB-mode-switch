@@ -33,10 +33,10 @@ finish()
 
 outfile = "label-%s.png" % time.time()
 
-call("inkscape -C -f label.svg -w 800 -h 1200 -e %s --export-background=white" % outfile)
+call("inkscape -C -f label.svg -w 812 -h 1218 -e %s --export-background=white" % outfile)
 
 print("Image generated in %s" % outfile)
 
 print("Printing %s" % outfile)
-call("lpr -o ppi=200 %s" % outfile)
+call("lpr -o ppi=203 -o Resolution=203dpi -o PageSize=w288h432 %s" % outfile)
 cleanup()
