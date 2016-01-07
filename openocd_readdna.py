@@ -25,7 +25,7 @@ for line in output.splitlines():
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
-        border=1,
+        border=2,
     )
     hexs = hex(hexc)
     print(hexs)
