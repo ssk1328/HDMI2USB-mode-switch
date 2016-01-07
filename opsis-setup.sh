@@ -2,6 +2,9 @@
 
 set -e
 
+# Temporary hack for Anoop's broken machine
+sudo rm -f /var/lib/apt/lists/dl.google.com_linux_*
+
 sudo apt-get install realpath
 
 CALLED=$_
