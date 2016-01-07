@@ -58,7 +58,7 @@
      id="layer1"
      transform="translate(0,-512.35)">
     <image
-       sodipodi:absref="/usr/local/google/home/tansell/foss/timvideos/hdmi2usb/HDMI2USB-mode-switch/barcode_mac_small.png"
+       sodipodi:absref="barcode_mac_small.png"
        xlink:href="barcode_mac_small.png"
        y="982.34998"
        x="186"
@@ -67,7 +67,7 @@
        width="157.5"
        inkscape:label="#mac" />
     <image
-       sodipodi:absref="/usr/local/google/home/tansell/foss/timvideos/hdmi2usb/HDMI2USB-mode-switch/barcode_mac_small.png"
+       sodipodi:absref="barcode_mac_small.png"
        xlink:href="barcode_mac_small.png"
        y="982.34998"
        x="17"
@@ -76,7 +76,7 @@
        width="157.5"
        inkscape:label="#mac" />
     <image
-       sodipodi:absref="/usr/local/google/home/tansell/foss/timvideos/hdmi2usb/HDMI2USB-mode-switch/barcode_dna_small.png"
+       sodipodi:absref="barcode_dna_small.png"
        xlink:href="barcode_dna_small.png"
        y="922.34998"
        x="186"
@@ -85,7 +85,7 @@
        width="157.5"
        inkscape:label="#dna" />
     <image
-       sodipodi:absref="/usr/local/google/home/tansell/foss/timvideos/hdmi2usb/HDMI2USB-mode-switch/barcode_dna_small.png"
+       sodipodi:absref="barcode_dna_small.png"
        xlink:href="barcode_dna_small.png"
        y="922.34998"
        x="17"
@@ -94,7 +94,7 @@
        width="157.5"
        inkscape:label="#dna" />
     <image
-       sodipodi:absref="/usr/local/google/home/tansell/foss/timvideos/hdmi2usb/HDMI2USB-mode-switch/barcode_mac_small.png"
+       sodipodi:absref="barcode_mac_small.png"
        xlink:href="barcode_mac_small.png"
        y="728.34998"
        x="190"
@@ -103,7 +103,7 @@
        width="157.5"
        inkscape:label="#mac" />
     <image
-       sodipodi:absref="/usr/local/google/home/tansell/foss/timvideos/hdmi2usb/HDMI2USB-mode-switch/barcode_dna_small.png"
+       sodipodi:absref="barcode_dna_small.png"
        xlink:href="barcode_dna_small.png"
        y="728.34998"
        x="13"
@@ -266,8 +266,8 @@
        height="54"
        width="157.5"
        inkscape:label="#mac"
-       xlink:href="/usr/local/google/home/tansell/foss/timvideos/hdmi2usb/HDMI2USB-mode-switch/barcode_mac_small.png"
-       sodipodi:absref="/usr/local/google/home/tansell/foss/timvideos/hdmi2usb/HDMI2USB-mode-switch/barcode_mac_small.png" />
+       xlink:href="barcode_mac_small.png"
+       sodipodi:absref="barcode_mac_small.png" />
     <image
        y="550.82361"
        x="187.17949"
@@ -275,8 +275,8 @@
        height="54"
        width="157.5"
        inkscape:label="#dna"
-       xlink:href="/usr/local/google/home/tansell/foss/timvideos/hdmi2usb/HDMI2USB-mode-switch/barcode_dna_small.png"
-       sodipodi:absref="/usr/local/google/home/tansell/foss/timvideos/hdmi2usb/HDMI2USB-mode-switch/barcode_dna_small.png" />
+       xlink:href="barcode_dna_small.png"
+       sodipodi:absref="barcode_dna_small.png" />
     <image
        y="674.84357"
        x="25.307835"
