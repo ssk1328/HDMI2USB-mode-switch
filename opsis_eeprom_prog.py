@@ -47,7 +47,13 @@ import argparse
 import time
 import opsis_eeprom
 
-dev = get_dev()
+import modeswitch
+try:
+    dev = get_dev()
+except ValueError:
+    modeswitch.switch("eeprom")
+    dev = get_dev()
+
 current_eeprom_data = get_eeprom(dev, 0, opsis_eeprom.OpsisEEPROM.size())
 old_eeprom_data = bytes(current_eeprom_data)
 

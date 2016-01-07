@@ -6,15 +6,14 @@ import subprocess
 import time
 import os
 
+from modeswitch import call
+import modeswitch
+
 def start(a):
     print(a, "...", sep="", end="")
     sys.stdout.flush()
 def finish():
     print("Done")
-
-def call(a):
-    subprocess.check_output(a, shell=True, stderr=subprocess.STDOUT)
-
 
 def cleanup():
     for f in ["barcode_mac_small.png", "barcode_mac_large.png", "barcode_dna_small.png", "barcode_dna_large.png"]:
@@ -23,21 +22,12 @@ def cleanup():
 cleanup()
 
 start("Getting MAC address")
-exp = None
-for i in range(0, 3):
-    try:
-        call("python hdmi2usb-mode-switch.py --mode eeprom")
-        break
-    except Exception as e:
-        exp = e
-        time.sleep(1)
-else:
-    raise exp
+modeswitch.switch("eeprom")
 call("python opsis_eeprom_prog.py")
 finish()
 
 start("Getting Device DNA")
-call("python hdmi2usb-mode-switch.py --mode jtag")
+modeswitch.switch("jtag")
 call("python openocd_readdna.py numato_opsis")
 finish()
 
