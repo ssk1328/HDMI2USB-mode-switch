@@ -146,6 +146,16 @@ class OpsisEEPROM(ctypes.LittleEndianStructure):
         from barcode.writer import ImageWriter
         return barcode.get('Code128', self.mac(), writer=ImageWriter())
 
+    def mac_qrcode(self):
+        import qrcode
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            border=1,
+        )
+        qr.add_data(self.mac().replace(':',''))
+        return qr
+
     def eui64(self):
         if self.wp_mac[0] != -1:
             mac = list(self.wp_mac)
@@ -209,3 +219,5 @@ if __name__ == "__main__":
 
     e.mac_barcode().save('barcode_mac_small', {'module_height': 8.65, 'module_width': 0.17750000000000000, 'font_size': 15, 'text_distance': 2, 'human': 'MAC - %s' % e.mac()})
     e.mac_barcode().save('barcode_mac_large', {'module_height': 12.80, 'module_width': 0.20600000000000000, 'font_size': 20, 'text_distance': 2, 'human': 'MAC - %s' % e.mac()})
+    img = e.mac_qrcode().make_image()
+    img.save("qrcode_mac.png")

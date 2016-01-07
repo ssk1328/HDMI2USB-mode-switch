@@ -10,13 +10,11 @@ from modeswitch import call
 import modeswitch
 
 def start(a):
-    print(a, "...", sep="", end="")
+    print(a, "...", sep="", end=" ")
     sys.stdout.flush()
-def finish():
-    print("Done")
 
 def cleanup():
-    for f in ["barcode_mac_small.png", "barcode_mac_large.png", "barcode_dna_small.png", "barcode_dna_large.png"]:
+    for f in ["qrcode_mac.png", "qrcode_dna.png", "dna.txt", "mac.txt"]:
         if os.path.exists(f):
             os.unlink(f)
 cleanup()
@@ -24,16 +22,26 @@ cleanup()
 start("Getting MAC address")
 modeswitch.switch("eeprom")
 call("python opsis_eeprom_prog.py")
-finish()
+mac = open("mac.txt", "r").read().strip()
+smac = mac.replace(":","-")
+print(mac)
 
-start("Getting Device DNA")
+start("Getting Device DNA.")
 modeswitch.switch("jtag")
 call("python openocd_readdna.py numato_opsis")
-finish()
+dna = open("dna.txt", "r").read().strip()
+print(dna)
 
-outfile = "label-%s.png" % time.time()
+tmpfile = "label_%s_%s.svg" % (smac, dna)
+outfile = "label_%s_%s.png" % (smac, dna)
 
-call("inkscape -C -f label.svg -w 812 -h 1218 -e %s --export-background=white" % outfile)
+d = open("label.svg").read()
+d = d.replace("0x000000000000000", dna)
+d = d.replace("00:00:00:00:00:00", mac)
+open(tmpfile, "w").write(d)
+
+call("inkscape -C -f %s -w 812 -h 1218 -e %s --export-background=white" % (tmpfile, outfile))
+os.unlink(tmpfile)
 
 print("Image generated in %s" % outfile)
 

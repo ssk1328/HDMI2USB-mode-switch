@@ -102,5 +102,6 @@ else:
     print(repr(s))
     print("-"*40)
     print("Data verified successfully!")
-    s.mac_barcode().save('barcode_mac_small', {'module_height': 8.65, 'module_width': 0.17750000000000000, 'font_size': 15, 'text_distance': 2, 'human': 'MAC - %s' % s.mac()})
-    s.mac_barcode().save('barcode_mac_large', {'module_height': 12.80, 'module_width': 0.20600000000000000, 'font_size': 20, 'text_distance': 2, 'human': 'MAC - %s' % s.mac()})
+    img = s.mac_qrcode().make_image()
+    img.save("qrcode_mac.png")
+    open("mac.txt", "w").write(s.mac())

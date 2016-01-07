@@ -58,6 +58,10 @@ pip install crcmod
 #pip install pillow
 conda install pillow
 
+pip install qrcode
+#pip install git+git://github.com/ojii/pymaging.git#egg=pymaging
+#pip install git+git://github.com/ojii/pymaging-png.git#egg=pymaging-png
+
 pip install --upgrade hg+https://bitbucket.org/mithro/python-barcode
 pip install --upgrade git+https://github.com/mithro/hexfile.git
 

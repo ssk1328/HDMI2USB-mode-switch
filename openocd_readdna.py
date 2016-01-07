@@ -20,11 +20,16 @@ for line in output.splitlines():
     hexc = int(hexv, 16)
     assert binc == hexc
 
+
+    import qrcode
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        border=1,
+    )
     hexs = hex(hexc)
-    import barcode
-    from barcode.writer import ImageWriter
-    b = barcode.get('Code128', hexs[2:], writer=ImageWriter())
-
-    b.save('barcode_dna_small', {'module_height': 8.65, 'module_width': 0.19700000000000000, 'font_size': 15, 'text_distance': 2, 'human': 'DNA - %s' % hexs})
-    b.save('barcode_dna_large', {'module_height': 13.50, 'module_width': 0.22900000000000000, 'font_size': 16, 'text_distance': 2, 'human': 'DNA - %s' % hexs})
-
+    print(hexs)
+    open("dna.txt","w").write(hexs)
+    qr.add_data(hexs)
+    img = qr.make_image()
+    img.save("qrcode_dna.png")
