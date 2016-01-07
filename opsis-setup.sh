@@ -63,7 +63,7 @@ conda install pillow
 pip install --upgrade hg+https://bitbucket.org/mithro/python-barcode
 pip install --upgrade git+https://github.com/mithro/hexfile.git
 
-conda install -c https://conda.anaconda.org/m-labs flterm
+conda install -c https://conda.anaconda.org/fallen flterm
 
 sudo apt-get install build-essential gcc
 UBH=$TOP_DIR/bin/unbind-helper
