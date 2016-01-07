@@ -26,8 +26,10 @@ echo "        Top level directory: $TOP_DIR"
 unset PYTHONPATH
 
 CONDA_DIR=$TOP_DIR/conda
-if [ -d $CONDA_DIR ]; then
-	rm -rf $CONDA_DIR
+if [ ! -d $CONDA_DIR ]; then
+	wget -c https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+	chmod a+x Miniconda3-latest-Linux-x86_64.sh
+	./Miniconda3-latest-Linux-x86_64.sh -p $CONDA_DIR -b
 fi
 export PATH=$CONDA_DIR/bin:$PATH
 
@@ -35,10 +37,6 @@ sudo apt-get install git mercurial
 sudo cp 52-opsis.rules /etc/udev/rules.d/
 sudo chmod 644 /etc/udev/rules.d/
 sudo udevadm control --reload-rules
-
-wget -c https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-chmod a+x Miniconda3-latest-Linux-x86_64.sh
-./Miniconda3-latest-Linux-x86_64.sh -p $CONDA_DIR -b
 
 which conda
 which pip
