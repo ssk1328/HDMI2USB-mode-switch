@@ -82,15 +82,25 @@ if len(sys.argv) > 1:
     print()
     print("Run the tool again without --go to verify programming.")
 else:
+    print()
     print("Current contents:", repr(old_eeprom_data))
     print()
+    try:
+        print("Checking EEPROM contents!")
+        s.check()
+    except:
+        print("Check failed!")
+        print("Check failed!")
+        print("Check failed!")
+        print("Check failed!")
+        print()
+        print("Run this program with --go to program EEPROM.")
+        del dev
+        sys.exit(1)
     print()
-    print("Data found in EEPROM...")
     print("-"*40)
     print(repr(s))
     print("-"*40)
-    print()
-    s.check()
     print("Data verified successfully!")
     s.mac_barcode().save('barcode_mac_small', {'module_height': 8.65, 'module_width': 0.17750000000000000, 'font_size': 15, 'text_distance': 2, 'human': 'MAC - %s' % s.mac()})
     s.mac_barcode().save('barcode_mac_large', {'module_height': 12.80, 'module_width': 0.20600000000000000, 'font_size': 20, 'text_distance': 2, 'human': 'MAC - %s' % s.mac()})
