@@ -103,7 +103,7 @@ class OpsisEEPROM(ctypes.LittleEndianStructure):
         assert_eq(self.fx2cfg.totalsize, EEPROM_USEFUL)
 
         self.wp_empty = return_fill_buffer(self.wp_empty, 0xff)
-        if self.wp_mac[0] == 0:
+        if self.wp_mac[0] != -1:
              self.wp_mac[0] = -1
              self.wp_mac[1] = -1
 

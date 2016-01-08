@@ -222,6 +222,12 @@ class MicrobootSegment(_DataSegment):
 
     MAX_LEN = 2**7-1
 
+    def make_last(self):
+        self._last = 1
+        self._len = 0
+        self.addr = 0
+        self._data[:] = []
+
 
 class MicrobootConfig(_ConfigCommon):
     _pack_ = 1
@@ -233,6 +239,9 @@ class MicrobootConfig(_ConfigCommon):
     def c_struct(self, name):
         segs = self.segments()
         s = []
+        s.append("""\
+#define FX2_FIRMWARE_END offsetof(union %s_t, data%i)+1
+""" % (name, len(segs)-1))
         s.append("""\
 union %s_t {
     struct {
@@ -320,6 +329,7 @@ def microboot_from_hexfile(filename):
             if start >= segment.size:
                 break
         totalsize += segment.size
+    totalsize += ctypes.sizeof(MicrobootSegment)
 
     backbuffer = bytearray(totalsize+100)
 
@@ -341,6 +351,7 @@ def microboot_from_hexfile(filename):
             if start >= segment.size:
                 break
 
+    mb2seg = mb2seg.next()
     mb2seg.make_last()
     assert_eq(totalsize, mb2cfg.totalsize)
 
@@ -350,10 +361,13 @@ def microboot_from_hexfile(filename):
 microboot_cfg = fx2cfg_from_hexfile("microboot.hex")
 
 if __name__ == "__main__":
+    import os
     import sys
+    name = ""
     if len(sys.argv) > 1:
-        fx2cfg = fx2cfg_from_hexfile(sys.argv[-1])
-        mb2cfg = microboot_from_hexfile(sys.argv[-1])
+        fx2cfg = fx2cfg_from_hexfile(sys.argv[1])
+        mb2cfg = microboot_from_hexfile(sys.argv[1])
+        name = "_"+(os.path.splitext(os.path.basename(sys.argv[1]))[0]).lower()
     else:
         fx2cfg = microboot_cfg
         mb2cfg = microboot_from_hexfile("microboot.hex")
@@ -370,7 +384,6 @@ if __name__ == "__main__":
     sys.stderr.write("-"*10+"\n")
     for s in mb2cfg.segments():
         sys.stderr.write("%r\n" % s)
-
 
     sys.stdout.write("""\
 #include <endian.h>
@@ -399,8 +412,8 @@ typedef __u8 __be8;
 #define htobe8c(x) (x)
 #define htole8c(x) (x)
 """)
-    sys.stdout.write(fx2cfg.c_code("fx2fw"))
-    sys.stdout.write(mb2cfg.c_code("mb2fw"))
+    #sys.stdout.write(fx2cfg.c_code("fx2fw"))
+    sys.stdout.write(mb2cfg.c_code("fx2_mbfw" + name))
     if len(sys.argv) > 2:
         sys.stdout.write(r"""\
 
